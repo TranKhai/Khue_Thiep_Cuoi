@@ -1,0 +1,246 @@
+.wd-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wd-card-cont {
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 140px 90px 140px;
+}
+.wd-card-title {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.wd-card-items {
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+}
+.wd-card-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+.wd-card-item-border {
+  background: #000;
+  width: 2px;
+}
+.wd-card-item-title {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.wd-card-names {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.wd-card-item-name {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-card-welcome-text {
+  margin-top: 90px;
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-card-main-name {
+  margin-top: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.wd-card-main-name p {
+  color: #b48c72;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.wd-card-border {
+  margin-top: 60px;
+  width: 724px;
+  height: 1px;
+  background: #000;
+}
+.wd-address {
+  margin-top: 60px;
+}
+.wd-address-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.wd-address-block-text {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-address-block-title {
+  color: #b48c72;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-maps {
+  margin-top: 30px;
+  max-width: 750px;
+}
+.wd-address-block-bottom {
+  margin-top: 60px;
+}
+.wd-address-block-title.bottom {
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+@media screen and (max-width: 992px) {
+  .wd-card-cont {
+    padding: 40px 16px;
+  }
+  .wd-card {
+    padding: 0;
+  }
+  .wd-card-border {
+    width: 280px;
+  }
+  .wd-card-title {
+    color: #3f3a36;
+    text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+  .wd-card-items {
+    margin-top: 40px;
+  }
+  .wd-card-item-title {
+    color: #3f3a36;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+  .wd-card-names {
+    margin-top: 10px;
+    gap: 5px;
+  }
+  .wd-card-item-name {
+    color: #3f3a36;
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  .wd-card-welcome-text {
+    margin-top: 40px;
+    color: #3f3a36;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .wd-card-main-name {
+    margin-top: 20px;
+  }
+  .wd-card-main-name p {
+    color: #b48c72;
+    text-align: center;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+  .wd-card-main-name img {
+    width: 20px;
+    height: 20px;
+  }
+  .wd-card-border {
+    margin-top: 40px;
+  }
+  .wd-address {
+    margin-top: 35px;
+    width: 100%;
+  }
+  .wd-address-block {
+    gap: 6px;
+  }
+  .wd-address-block-text {
+    color: #3f3a36;
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .wd-address-block-title {
+    color: #b48c72;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  .wd-maps {
+    width: 100%;
+  }
+  .wd-address-block-bottom {
+    margin-top: 30px;
+  }
+  .wd-address-block-title.bottom {
+  }
+}
+@media screen and (max-width: 400px) {
+  .wd-card-border {
+    width: 100%;
+  }
+}

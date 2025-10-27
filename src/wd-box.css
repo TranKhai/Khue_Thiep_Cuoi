@@ -1,0 +1,188 @@
+.wd-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wd-box-cont {
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 90px 0 75px 0;
+}
+.wd-box-title {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.wd-box-subtitle {
+  margin-top: 10px;
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-box-items {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.wd-box-item {
+  padding: 35px 55px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8f3ef;
+  flex: 1;
+  max-width: 500px;
+}
+.wd-box-item-title {
+  color: #b48c72;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.wd-box-item-qr {
+  margin-top: 25px;
+  width: 100%;
+  padding: 5px;
+  background-color: #fff;
+  max-width: 250px;
+}
+.qr-bride,
+.qr-groom {
+  width: 100%;
+}
+.wd-box-texts {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.wd-box-item-text {
+  color: #b48c72;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+.wd-box-text-des {
+  margin-top: 80px;
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-box-bottom {
+  margin-top: 10px;
+  color: #b48c72;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+}
+.wd-box-bottom img {
+  width: 40px;
+  height: 40px;
+}
+@media screen and (max-width: 992px) {
+  .wd-box-cont {
+    padding: 55px 0 75px 0;
+  }
+  .wd-box-title {
+    color: #3f3a36;
+    text-align: center;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+  .wd-box-subtitle {
+    color: #3f3a36;
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .wd-box-items {
+    margin-top: 24px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .wd-box-item {
+    padding: 20px;
+  }
+  .wd-box-item-title {
+    color: #b48c72;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+  .wd-box-item-qr {
+    margin-top: 20px;
+  }
+  .wd-box-texts {
+    color: #b48c72;
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 123.077% */
+  }
+  .wd-box-text-des {
+    margin-top: 75px;
+    color: #3f3a36;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .wd-box-bottom {
+    color: #b48c72;
+    text-align: center;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .wd-box-bottom img {
+    width: 30px;
+    height: 30px;
+  }
+}

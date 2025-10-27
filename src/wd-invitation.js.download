@@ -1,0 +1,549 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const scrollButtons = document.querySelectorAll(".scroll-to-form");
+
+  scrollButtons.forEach(button => {
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const targetSelector = button.getAttribute("data-target") || "#wd-form";
+      const target = document.querySelector(targetSelector);
+
+      if (target) {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: window.innerWidth >= 769 ? "center" : "start", 
+          inline: "nearest"
+        });
+      }
+    });
+  });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    function openForgotPasswordPopup() {
+      const forgotForm = document.querySelector('.wd-forgot-form');
+      if (forgotForm) {
+          forgotForm.classList.add('active');
+      }
+  }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('reset') === 'sent') {
+        // Mở lại popup Quên mật khẩu (nếu có hàm JS tương ứng)
+        openForgotPasswordPopup(); // Bạn cần thay bằng hàm thực tế của bạn
+
+        // Hiển thị thông báo
+        const msg = document.querySelector('.wd-user-form-success');
+        msg.className = 'notice notice-success';
+        msg.textContent = 'Liên kết đặt lại mật khẩu đã được gửi đến email của bạn.';
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const timeInput = flatpickr("#wd-time", {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    time_24hr: false,
+  });
+
+  const dateInput = flatpickr("#wd-date", {
+    enableTime: false,
+    dateFormat: "l, d/m/Y",
+    locale: "vn"
+  });
+
+  document.getElementById("time-icon").addEventListener("click", () => {
+    timeInput.open();
+  });
+
+  document.getElementById("date-icon").addEventListener("click", () => {
+    dateInput.open();
+  });
+});
+document.getElementById('wd-register-form').addEventListener('submit', function (e) {
+    const passwordInput = this.querySelector('input[name="password"]');
+    const password = passwordInput.value.trim();
+
+    // Điều kiện: ít nhất 8 ký tự, có ít nhất 1 chữ hoa và 1 số
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    const messageElement = this.querySelector('.wd-user-form-text.text-a');
+
+    if (!passwordRegex.test(password)) {
+        e.preventDefault(); // Ngăn gửi form
+
+        // Hiển thị thông báo lỗi
+        messageElement.textContent = 'Vui lòng nhập ít nhất 8 ký tự, gồm 1 chữ hoa và 1 số.';
+        messageElement.style.color = 'red';
+    } else {
+        // Đúng định dạng => reset về thông báo gốc
+        messageElement.textContent = 'Bao gồm 8 ký tự, 1 chữ viết hoa và 1 số';
+        messageElement.style.color = 'inherit';
+    }
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.querySelector(".wd-header-nav-item-mobile");
+    const menuClose = document.querySelector(".wd-header-nav-item-mobile-close");
+    const navMenu = document.querySelector(".wd-header-nav");
+    const navMenuClose = document.querySelectorAll(".close-menu-mobile");
+
+    // Mở menu
+    menuToggle.addEventListener("click", function (e) {
+        e.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+        navMenu.classList.add("active");
+    });
+
+    // Đóng menu khi bấm vào icon đóng
+    menuClose.addEventListener("click", function (e) {
+        e.stopPropagation();
+        navMenu.classList.remove("active");
+    });
+
+    // Đóng menu khi click vào các phần tử có class "close-menu-mobile"
+    navMenuClose.forEach(function (el) {
+        el.addEventListener("click", function () {
+            navMenu.classList.remove("active");
+        });
+    });
+
+    // Đóng menu khi click ra ngoài (thêm setTimeout để tránh xung đột)
+    document.addEventListener("click", function (e) {
+        setTimeout(() => {
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                navMenu.classList.remove("active");
+            }
+        }, 10); 
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const loginBtn = document.getElementById("wd-menu-login");
+  const loginForm = document.querySelector(".wd-user-form.wd-loggin-form");
+  const formContainer = loginForm?.querySelector(".wd-user-form-cont");
+  const closeIcon = loginForm?.querySelector(".wd-user-cancel");
+
+  const userToggle = document.querySelector(".wd-user-toggle");
+  const dropdownMenu = document.querySelector(".wd-user-dropdown-menu");
+
+
+  // ✅ A. Xử lý login form nếu đủ phần tử
+  if (loginBtn && loginForm && formContainer && closeIcon) {
+    loginBtn.addEventListener("click", function (e) {
+      if (window.wdUserLoggedIn) return;
+      e.preventDefault();
+      loginForm.classList.add("active");
+      const firstInput = loginForm.querySelector(".wd-user-form-input");
+      if (firstInput) firstInput.focus();
+    });
+
+    closeIcon.addEventListener("click", function (e) {
+      e.stopPropagation();
+      loginForm.classList.remove("active");
+    });
+
+    formContainer.addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+
+    loginForm.addEventListener("click", function () {
+      loginForm.classList.remove("active");
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && loginForm.classList.contains("active")) {
+        loginForm.classList.remove("active");
+      }
+    });
+  }
+
+  // ✅ B. Xử lý dropdown user đã đăng nhập (nên luôn chạy riêng biệt)
+  if (userToggle && dropdownMenu) {
+
+    userToggle.addEventListener("click", function (e) {
+
+      e.stopPropagation();
+      dropdownMenu.classList.toggle("active");
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!dropdownMenu.contains(e.target) && !userToggle.contains(e.target)) {
+        dropdownMenu.classList.remove("active");
+      }
+    });
+  }
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const slider = document.querySelector(".wd-template-slider");
+  const items = document.querySelectorAll(".wd-template-item");
+  const prevBtn = document.querySelector(".prev-btn");
+  const nextBtn = document.querySelector(".next-btn");
+  const dotsContainer = document.querySelector(".wd-slider-dots");
+
+  if (!slider || items.length === 0) return;
+
+  const totalItems = items.length;
+  let currentIndex = 0;
+
+  // 1) Tạo pagination dots động
+  dotsContainer.innerHTML = "";
+  for (let i = 0; i < totalItems; i++) {
+    const dot = document.createElement("span");
+    dot.classList.add("wd-dot");
+    if (i === 0) dot.classList.add("active");
+    dot.setAttribute("data-index", i);
+    dotsContainer.appendChild(dot);
+  }
+  const dots = document.querySelectorAll(".wd-dot");
+
+  // 2) Tính itemWidth
+  const gapPx = parseFloat(getComputedStyle(slider).gap) || 0;
+  const itemWidth = items[0].getBoundingClientRect().width + gapPx;
+
+  // 3) Hàm cập nhật slide, dot, và thêm/removal class active cho item
+  function goToSlide(index) {
+    // Wrap-around với Prev/Next
+    if (index < 0) index = totalItems - 1;
+    if (index > totalItems - 1) index = 0;
+    currentIndex = index;
+
+    // Scroll slider
+    slider.scrollTo({
+      left: currentIndex * itemWidth,
+      behavior: "smooth"
+    });
+
+    // Cập nhật dot
+    dots.forEach((d, i) => {
+      i === currentIndex ? d.classList.add("active") : d.classList.remove("active");
+    });
+
+    // Cập nhật class "active" cho .wd-template-item
+    items.forEach((item, i) => {
+      if (i === currentIndex) item.classList.add("active");
+      else item.classList.remove("active");
+    });
+  }
+
+  // 4) Event listener cho Next/Prev buttons
+  nextBtn.addEventListener("click", function () {
+    goToSlide(currentIndex + 1);
+  });
+  prevBtn.addEventListener("click", function () {
+    goToSlide(currentIndex - 1);
+  });
+
+  // 5) Event listener cho từng dot
+  dots.forEach((dot) => {
+    dot.addEventListener("click", function (e) {
+      const idx = parseInt(this.getAttribute("data-index"), 10);
+      goToSlide(idx);
+    });
+  });
+
+  // 6) Xử lý drag / touch để cập nhật `currentIndex` khi user kéo
+  let isDragging = false;
+  slider.addEventListener("mousedown", () => { isDragging = true; });
+  slider.addEventListener("touchstart", () => { isDragging = true; });
+
+  function onDragEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    setTimeout(() => {
+      const scrolled = slider.scrollLeft;
+      const newIndex = Math.round(scrolled / itemWidth);
+      goToSlide(newIndex);
+    }, 100);
+  }
+  slider.addEventListener("mouseup", onDragEnd);
+  slider.addEventListener("mouseleave", onDragEnd);
+  slider.addEventListener("touchend", onDragEnd);
+
+  // 7) Khởi đầu: gắn class active cho item đầu tiên
+  items[0].classList.add("active");
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const loginForm = document.getElementById("wd-login-form");
+    const registerForm = document.getElementById("wd-register-form");
+    const forgotForm = document.getElementById("wd-forgot-form");
+    const wdLogginPopup = document.getElementById("wd-login-popup");
+
+    // Các nút chuyển form như bạn đã viết
+    document.querySelectorAll(".switch-to-register").forEach(item => {
+        item.addEventListener("click", function (e) {
+            e.preventDefault();
+            loginForm.classList.remove("active");
+            forgotForm.classList.remove("active");
+            registerForm.classList.add("active");
+            wdLogginPopup.classList.remove("active");
+        });
+    });
+    document.querySelectorAll(".switch-to-login").forEach(item => {
+        item.addEventListener("click", function (e) {
+            e.preventDefault();
+            registerForm.classList.remove("active");
+            forgotForm.classList.remove("active");
+            loginForm.classList.add("active");
+            wdLogginPopup.classList.remove("active");
+        });
+    });
+    document.querySelectorAll(".switch-to-forgot").forEach(item => {
+        item.addEventListener("click", function (e) {
+            e.preventDefault();
+            loginForm.classList.remove("active");
+            registerForm.classList.remove("active");
+            forgotForm.classList.add("active");
+            wdLogginPopup.classList.remove("active");
+        });
+    });
+    document.querySelectorAll(".wd-user-cancel").forEach(btn => {
+        btn.addEventListener("click", function () {
+            loginForm.classList.remove("active");
+            registerForm.classList.remove("active");
+            forgotForm.classList.remove("active");
+            wdLogginPopup.classList.remove("active");
+        });
+    });
+
+    
+});
+document.addEventListener("DOMContentLoaded", function () {
+   const wdLogginPopup = document.getElementById("wd-login-popup");
+   // Xử lý nút TẠO THIỆP
+    const createInviteBtn = document.getElementById('wd-create-invite-btn');
+    if (createInviteBtn) {
+        createInviteBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+
+              if (!window.wdUserLoggedIn) {
+                // Hiện form login, ẩn các form khác
+                wdLogginPopup.classList.add('active');
+            } else {
+             
+            }
+        });
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const listItems = document.querySelectorAll(".wd-list-item");
+    const loadMoreBtn = document.querySelector(".wd-list-btn");
+
+    let initialItems, increment;
+    let currentCount;
+
+    function setDisplayCounts() {
+        if (window.innerWidth >= 992) {
+            initialItems = 9;
+            increment = 3;
+        } else {
+            initialItems = 8;
+            increment = 4;
+        }
+    }
+
+    function showItems(count) {
+        listItems.forEach((item, index) => {
+            if (index < count) {
+                item.classList.remove("hidden");
+            } else {
+                item.classList.add("hidden");
+            }
+        });
+
+        // Ẩn nút nếu không còn gì để hiển thị
+        if (count >= listItems.length) {
+           if (loadMoreBtn) {
+              loadMoreBtn.style.display = "none";
+           }
+        } else {
+          if (loadMoreBtn) {
+            loadMoreBtn.style.display = "inline-block";
+          }
+        }
+    }
+
+    function handleLoadMore() {
+        currentCount += increment;
+        showItems(currentCount);
+    }
+
+    // Khởi tạo
+    setDisplayCounts();
+    currentCount = initialItems;
+    showItems(currentCount);
+
+    loadMoreBtn?.addEventListener("click", handleLoadMore);
+
+    // Đổi kích thước màn hình sẽ reset lại
+    window.addEventListener("resize", () => {
+        setDisplayCounts();
+        currentCount = initialItems;
+        showItems(currentCount);
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll('.wd-template-item').forEach(item => {
+    item.addEventListener('click', function () {
+      // Bỏ class "selected" khỏi các mẫu khác
+      document.querySelectorAll('.wd-template-item').forEach(i => i.classList.remove('selected'));
+
+      // Gán class "selected" cho item được click
+      item.classList.add('selected');
+
+      // Lấy ID và set vào hidden input
+      const selectedId = item.getAttribute('data-id');
+      document.getElementById('selectedTemplateId').value = selectedId;
+    });
+  });
+});
+document.addEventListener("DOMContentLoaded", function () {
+  const avatarInput = document.getElementById("avatarInput");
+  const avatarPreview = document.getElementById("avatarPreview");
+
+  if(avatarInput){
+    avatarInput.addEventListener("change", function (event) {
+      const file = event.target.files[0];
+  
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+  
+        reader.onload = function (e) {
+          avatarPreview.src = e.target.result;
+          avatarPreview.style.display = "block";
+        };
+  
+        reader.readAsDataURL(file);
+      } else {
+        avatarPreview.src = "";
+        avatarPreview.style.display = "none";
+      }
+    });
+  };
+});
+document.addEventListener("DOMContentLoaded", function () {
+  const avatarInput = document.getElementById("avatarInput");
+  const avatarPreview = document.getElementById("avatarPreview");
+  const uploadBtn = document.getElementById("uploadBtn");
+
+  if(uploadBtn){
+    uploadBtn.addEventListener("click", () => {
+      avatarInput.click();
+    });
+  }
+  if(avatarInput){
+
+    avatarInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          avatarPreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  };
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('wd-data-form');
+  const actionTypeInput = document.getElementById('action_type');
+  const popup = document.getElementById('wd-avatar-popup');
+
+  const brideInput = document.getElementById('wd-brideName');
+  const groomInput = document.getElementById('wd-groomName');
+  const timeInput = document.getElementById('wd-time');
+  const dateInput = document.getElementById('wd-date');
+  const addressInput = document.getElementById('wd-address');
+  const selectedTemplateInput = document.getElementById('selectedTemplateId');
+
+  const submitBtn = document.getElementById('submitWeddingCardBtn');
+
+  // Tạo thẻ hiển thị lỗi nếu chưa có
+  const misData = document.getElementById('missFields');
+  // Xử lý click nút submit
+  if(submitBtn){
+    submitBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+  
+      // Reset trạng thái lỗi
+      misData.textContent = '';
+      [brideInput, groomInput, timeInput, dateInput, addressInput].forEach(input => {
+        input.classList.remove('input-error');
+      });
+      document.querySelectorAll('.wd-template-item').forEach(i => i.classList.remove('template-error'));
+  
+      let missingFields = [];
+  
+      if (!brideInput.value.trim()) {
+        missingFields.push('Tên cô dâu');
+        brideInput.classList.add('input-error');
+      }
+      if (!groomInput.value.trim()) {
+        missingFields.push('Tên chú rể');
+        groomInput.classList.add('input-error');
+      }
+      if (!timeInput.value.trim()) {
+        missingFields.push('Thời gian');
+        timeInput.classList.add('input-error');
+      }
+      if (!dateInput.value.trim()) {
+        missingFields.push('Ngày');
+        dateInput.classList.add('input-error');
+      }
+      if (!addressInput.value.trim()) {
+        missingFields.push('Địa chỉ');
+        addressInput.classList.add('input-error');
+      }
+      if (!selectedTemplateInput.value.trim()) {
+        missingFields.push('Mẫu thiệp');
+        document.querySelectorAll('.wd-template-item').forEach(i => i.classList.add('template-error'));
+      }
+  
+      if (missingFields.length > 0) {
+        misData.textContent = 'Vui lòng điền/chọn các trường: ' + missingFields.join(', ');
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+  
+      // Nếu hợp lệ thì bật popup xác nhận
+      misData.textContent = '';
+      popup.classList.add('active');
+    });
+  }
+
+  // Xử lý chọn mẫu thiệp
+  document.querySelectorAll('.wd-template-item').forEach(item => {
+    item.addEventListener('click', function () {
+      selectedTemplateInput.value = this.getAttribute('data-id');
+      document.querySelectorAll('.wd-template-item').forEach(i => i.classList.remove('selected'));
+      this.classList.add('selected');
+      // Xóa lỗi mẫu thiệp khi chọn
+      document.querySelectorAll('.wd-template-item').forEach(i => i.classList.remove('template-error'));
+      misData.textContent = '';
+    });
+  });
+
+  // Nút "Hủy" trong popup
+  document.getElementById('cancelAvatarBtn')?.addEventListener('click', function () {
+    popup.classList.remove('active');
+  });
+
+  document.getElementById('confirmAvatarBtn')?.addEventListener('click', function () {
+    const button = this;
+    button.disabled = true; 
+    button.textContent = 'Đang tạo...'; 
+
+    actionTypeInput.value = 'create';
+    setTimeout(() => {
+      form.submit();
+    }, 100);
+  });
+
+});

@@ -1,0 +1,126 @@
+.wd-event {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wd-event-cont {
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 90px 140px 40px 140px;
+}
+.wd-event-title {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.wd-event-items {
+  margin-top: 50px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+.wd-event-item {
+  background: #b48c72;
+  padding: 20px;
+  min-width: 470px;
+  flex: 1;
+}
+.wd-event-box {
+  padding: 40px 20px;
+  border: 1px solid #fff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.wd-event-item-title {
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.wd-event-content {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  flex: 1;
+  justify-content: space-between;
+}
+.wd-event-content-item {
+  display: flex;
+  gap: 8px;
+}
+.wd-event-content-text-title {
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.wd-event-content-text-time {
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+}
+.wd-event-icons {
+  font-size: 24px;
+}
+@media screen and (max-width: 992px) {
+  .wd-event-cont {
+    padding: 60px 16px 20px 16px;
+  }
+  .wd-event {
+    padding: 0;
+  }
+  .wd-event-title {
+    color: #3f3a36;
+    text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+  .wd-event-items {
+    margin-top: 45px;
+    flex-direction: column;
+    width: 100%;
+  }
+  .wd-event-item {
+    min-width: 100%;
+    width: 100%;
+    padding: 15px;
+  }
+  .wd-event-box {
+    padding: 30px 15px;
+  }
+  .wd-event-item-title {
+    text-align: center;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  .wd-event-content {
+    gap: 25px;
+  }
+  .wd-event-content-text-time {
+    margin-top: 10px;
+  }
+}

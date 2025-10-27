@@ -1,0 +1,154 @@
+.wd-couple {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wd-couple-cont {
+  max-width: 1440px;
+  width: 100%;
+  padding: 70px 140px 180px 140px;
+}
+.wd-couple-title {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.wd-couple-content {
+  margin-top: 55px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.wd-couple-item {
+  display: flex;
+}
+.wd-couple-img-box {
+  width: 60%;
+  max-height: 550px;
+  min-height: 550px;
+}
+.wd-couple-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.wd-couple-info {
+  width: 40%;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+.wd-couple-position {
+  color: #3f3a36;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+.wd-couple-name {
+  color: #3f3a36;
+  font-family: "Averta Std CY";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.wd-couple-des {
+  color: #3f3a36;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: none;
+}
+.wd-couple-img-order {
+  order: 1;
+}
+.wd-couple-info-orde {
+  order: 0;
+}
+@media screen and (max-width: 992px) {
+  .wd-couple {
+    padding: 0;
+  }
+  .wd-couple-cont {
+    padding: 40px 0 30px 0;
+  }
+  .wd-couple-content {
+    margin-top: 25px;
+  }
+  .wd-couple-title {
+    color: #3f3a36;
+    text-align: center;
+    font-family: "Averta Std CY";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+  .wd-couple-item {
+    flex-direction: column;
+  }
+  .wd-couple-img {
+    width: 100%;
+  }
+  .wd-couple-info {
+    width: 100%;
+    margin: 0;
+    padding: 20px 16px 40px 16px;
+  }
+  .wd-couple-des {
+    max-width: 100%;
+  }
+  .wd-couple-position {
+    color: #3f3a36;
+    font-family: "Averta Std CY";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+  }
+  .wd-couple-name {
+    color: #3f3a36;
+    font-family: "Averta Std CY";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+  .wd-couple-des {
+    color: #3f3a36;
+    font-family: "Averta Std CY";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .wd-couple-img {
+    /* height: 350px; */
+  }
+  .wd-couple-img-order {
+    order: 0;
+  }
+  .wd-couple-info-orde {
+    order: 1;
+  }
+  .wd-couple-img-box {
+    width: 100%;
+    min-height: auto;
+    max-height: max-content;
+  }
+}

@@ -1,0 +1,130 @@
+.wd-user-form {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wd-user-form-cont {
+  padding: 12px 24px 36px 24px;
+  background: #fff;
+  min-width: 420px;
+}
+.wd-user-form-title {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.wd-user-form-text {
+  margin-top: 16px;
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-user-form-btn:hover {
+  background: #eee;
+  color: #9e9e9e;
+}
+.wd-user-form-btn {
+  margin-top: 32px;
+  display: flex;
+  width: 100%;
+  padding: 12px 20px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  background: #b48c72;
+  color: #fff;
+
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+}
+.wd-user-form-block {
+  margin-top: 16px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+}
+.wd-user-form-block-text {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-user-form-a {
+  color: #b48c72;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.wd-user-cancel {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.wd-user-cancel img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.wd-loggin-popup,
+.wd-loggin-form,
+.wd-register-form,
+.wd-forgot-form {
+  display: none;
+  z-index: 120;
+}
+.wd-loggin-popup.active,
+.wd-loggin-form.active,
+.wd-register-form.active,
+.wd-forgot-form.active {
+  display: flex !important;
+}
+.wd-user-input-cont {
+  margin-top: 32px;
+}
+.wd-user-form-input {
+  width: 100%;
+  display: flex;
+  padding: 12px 20px;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+  border: 1px solid #3f3a36;
+  background: #fff;
+  margin-bottom: 16px;
+}
+.wd-user-form-text.text-a {
+  text-align: start;
+}
+@media screen and (max-width: 500px) {
+  .wd-user-form-cont {
+    min-width: auto;
+    width: 100%;
+    margin: 0 16px;
+  }
+}

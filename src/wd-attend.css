@@ -1,0 +1,263 @@
+.wd-attend {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.wd-attend .wd-attend-img-top-box,
+.wd-attend .wd-attend-img-bottom {
+  width: 100%;
+}
+.wd-attend-cont {
+  max-width: 1440px;
+  display: flex;
+  width: calc(100% - 240px);
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #fff;
+  padding: 90px 100px;
+  position: absolute;
+  margin-top: 150px;
+}
+
+.wd-attend-upload-btn {
+  top: 30%;
+}
+.wd-attend-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.wd-attend-img-bottom {
+  object-fit: cover;
+}
+.wd-attend-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.wd-attend-form-select-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.wd-attend-form-selected {
+  padding: 12px 20px;
+  border: 1px solid #3f3a36;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+.wd-attend-form-selected p {
+  color: #9e9e9e;
+}
+
+.wd-attend-form-select {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  background: #fff;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  z-index: 10;
+  display: none;
+}
+
+.wd-attend-form-select-item {
+  padding: 10px;
+}
+
+.wd-attend-form-select-item:hover {
+  background-color: #f0f0f0;
+}
+.wd-attend-title {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-attend-form-selected-down {
+  width: 20px;
+  height: 20px;
+}
+.wd-attend-form {
+  margin-top: 40px;
+  width: 100%;
+}
+.wd-attend-form-header {
+  display: flex;
+  gap: 15px;
+}
+.wd-attend-form-input-name {
+  flex-basis: 70%;
+  display: flex;
+  padding: 12px 20px;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1 0 0;
+  border: 1px solid #3f3a36;
+  background: #fff;
+  outline: none;
+}
+.wd-attend-form-select-wrapper {
+  flex-basis: 30%;
+  outline: none;
+}
+.wd-attend-form-input-phone {
+  flex-basis: 100%;
+  padding: 12px 20px;
+  outline: none;
+}
+.wd-attend-form-area {
+  padding: 12px 20px;
+  outline: none;
+  height: 180px;
+}
+.wd-attend-form-btns {
+  display: flex;
+  gap: 16px;
+}
+.wd-attend-form-btn:hover {
+  opacity: 0.8;
+}
+.wd-attend-form-btn {
+  flex: 1;
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1 0 0;
+  cursor: pointer;
+  border: none;
+}
+.wd-attend-form-btn.attend {
+  background: #b48c72;
+  color: #fff;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.wd-attend-form-btn.miss {
+  background: #eee;
+  color: #9e9e9e;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+@media screen and (max-width: 1200px) {
+  .wd-attend-upload-btn {
+    top: 20%;
+  }
+}
+@media screen and (max-width: 992px) {
+  .wd-attend-upload-btn {
+    top: 40%;
+  }
+
+  .wd-attend-img-bottom {
+    height: 508px;
+  }
+  .wd-attend-cont {
+    padding: 40px 20px;
+    width: calc(100% - 40px);
+    left: 20px;
+    right: 20px;
+    margin-top: 150px;
+  }
+  .wd-attend-title {
+    color: #3f3a36;
+    text-align: center;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .wd-attend-form {
+    margin-top: 24px;
+  }
+  .wd-attend-form-header {
+    flex-direction: column;
+  }
+  .wd-attend-form-input-name,
+  .wd-attend-form-selected,
+  .wd-attend-form-input-phone,
+  .wd-attend-form-area {
+    color: #9e9e9e;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .wd-attend-form-select-item {
+    font-size: 13px;
+  }
+  .wd-attend-form-btn.attend {
+    display: flex;
+    padding: 12px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+  }
+  .wd-attend-form-btn.attend {
+    font-size: 13px;
+  }
+  .wd-attend-form-btn.miss {
+    font-size: 13px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .wd-attend-img-bottom {
+    margin-top: 0;
+    height: 550px;
+  }
+  .wd-attend-cont {
+    margin-top: 100px;
+  }
+}
+@media screen and (max-width: 450px) {
+  .wd-attend-img-bottom {
+    height: 600px;
+  }
+  .wd-attend-cont {
+    margin-top: 70px;
+  }
+  /* .wd-attend-form-btn {
+    padding: 5px 10px !important;
+  } */
+}
+@media screen and (max-width: 300px) {
+  .wd-attend-img-bottom {
+    height: 580px;
+  }
+  .wd-attend-form-btn {
+    padding: 5px 10px !important;
+  }
+  .wd-attend-cont {
+    margin-top: 40px;
+  }
+}
+@media screen and (max-width: 260px) {
+  .wd-attend-img-bottom {
+    height: 650px;
+  }
+  .wd-attend-form-btn {
+    padding: 5px 10px !important;
+  }
+  .wd-attend-cont {
+    margin-top: 40px;
+  }
+}

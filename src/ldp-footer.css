@@ -1,0 +1,208 @@
+.ldp-footer {
+  padding-top: 30px;
+  background: #f4efeb;
+}
+.ldp-footer-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ldp-nav-items {
+  padding: 10px 0;
+  width: 764px;
+  border-top: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.ladp-footer-nav-dot {
+  width: 3px;
+  height: 3px;
+  background-color: #3f3a36;
+}
+.ladp-footer-nav-item {
+  color: #3f3a36;
+  text-align: center;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration: none;
+}
+.ldp-footer-content {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #d9d9d9;
+  padding-bottom: 20px;
+}
+.ldp-footer-content-logo {
+  flex-basis: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+.ldp-footer-logo {
+  width: 110.124px;
+  height: 83.218px;
+  flex-shrink: 0;
+}
+.ldp-footer-sublogo {
+  width: 219.997px;
+  height: 29px;
+  flex-shrink: 0;
+}
+.ldp-footer-nav-li-title {
+  color: #3f3a36;
+  text-align: justify;
+  font-family: "Averta Std CY";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.ldp-footer-nav-ul {
+  flex-basis: 70%;
+  display: flex;
+  justify-content: space-between;
+}
+.ldp-footer-nav-li-blocks {
+  margin-top: 15px;
+}
+.ldp-footer-nav-li-block {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.ldp-footer-nav-li-subtitle {
+  color: #3f3a36;
+  text-align: justify;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin-bottom: 20px;
+}
+.ldp-footer-nav-li-item {
+  color: #3f3a36;
+  text-align: justify;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+.ldp-footer-nav-li-medias {
+  margin-top: 15px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+.ldp-footer-nav-li-medias-title {
+  color: #3f3a36;
+  text-align: justify;
+  font-family: "Averta Std CY";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+.ldp-footer-nav-li-medias-list {
+  margin-top: 15px;
+  display: flex;
+  gap: 9.5px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ldp-footer-nav-li-medias-list img {
+  width: 20.5px;
+  height: 20.5px;
+  flex-shrink: 0;
+  flex-basis: 30%;
+}
+.lfp-footer-bottom {
+  padding-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+  max-width: 1440px;
+}
+.lfp-footer-bottom-cont {
+  flex-basis: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+.lfp-footer-bottom-text {
+  display: flex;
+  /* flex-direction: column; */
+  gap: 10px;
+  color: #3f3a36;
+  text-align: justify;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  /* flex-basis: 50%; */
+}
+.lfp-footer-bottom-img {
+  display: flex;
+  gap: 10px;
+  height: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.lfp-footer-bottom-img img:first-child {
+  width: 105px;
+  flex-shrink: 0;
+}
+.lfp-footer-bottom-img img:last-child {
+  width: 109px;
+  flex-shrink: 0;
+}
+.ldp-footer-line {
+  padding: 5px;
+  color: #fff;
+  text-align: justify;
+  font-family: "Averta Std CY";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  background: #b48c72;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+}
+@media screen and (max-width: 100px) {
+  .ldp-footer-cont {
+    margin: 0;
+    padding: 22px 16px 0 16px;
+    max-width: 100%;
+  }
+  .ldp-footer {
+    padding-top: 0;
+  }
+  .lfp-footer-bottom {
+    padding-top: 0;
+  }
+  .lfp-footer-bottom {
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .lfp-footer-bottom-cont {
+    margin-top: 12px;
+  }
+}

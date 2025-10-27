@@ -1,0 +1,963 @@
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleIcon = document.getElementById("wd-toggle-icon");
+  const extraItems = document.querySelectorAll(".wd-edit-extra");
+
+  let isOpen = true;
+
+  const iconOpen = THEME_URL + "/styles/icons/hambuger.svg";
+  const iconClose = THEME_URL + "/styles/icons/wdEditClose.svg";
+
+  toggleIcon
+    .closest(".wd-edit-cont-item")
+    .addEventListener("click", function () {
+      isOpen = !isOpen;
+
+      toggleIcon.src = isOpen ? iconClose : iconOpen;
+
+      extraItems.forEach((item) => {
+        if (isOpen) {
+          item.classList.add("active");
+        } else {
+          item.classList.remove("active");
+        }
+      });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*";
+  fileInput.style.display = "none";
+  document.body.appendChild(fileInput);
+
+  let currentUploader = null;
+  let currentButton = null;
+
+  // Tạo modal crop ảnh
+  const createCropModal = () => {
+    const modal = document.createElement("div");
+    modal.className = "image-crop-modal";
+
+    const cropContainer = document.createElement("div");
+    cropContainer.className = "crop-container";
+
+    const title = document.createElement("h3");
+    title.textContent = "Chỉnh sửa ảnh";
+
+    const helpText = document.createElement("div");
+    helpText.className = "crop-help-text";
+    helpText.textContent =
+      "Ảnh sẽ được tự động scale để phủ kín toàn bộ khung. Kéo thả để điều chỉnh vị trí hiển thị";
+
+    const cropArea = document.createElement("div");
+    cropArea.className = "crop-area";
+
+    const cropImage = document.createElement("img");
+    cropImage.className = "crop-image";
+
+    const buttonGroup = document.createElement("div");
+    buttonGroup.className = "crop-controls";
+
+    const cancelBtn = document.createElement("button");
+    cancelBtn.textContent = "Hủy";
+    cancelBtn.className = "crop-btn secondary";
+
+    const confirmBtn = document.createElement("button");
+    confirmBtn.textContent = "Xác nhận";
+    confirmBtn.className = "crop-btn";
+
+    cropArea.appendChild(cropImage);
+    buttonGroup.appendChild(cancelBtn);
+    buttonGroup.appendChild(confirmBtn);
+    cropContainer.appendChild(title);
+    cropContainer.appendChild(helpText);
+    cropContainer.appendChild(cropArea);
+    cropContainer.appendChild(buttonGroup);
+    modal.appendChild(cropContainer);
+    document.body.appendChild(modal);
+
+    return { modal, cropArea, cropImage, confirmBtn, cancelBtn, cropContainer };
+  };
+
+  const cropModal = createCropModal();
+
+  // Logic kéo thả ảnh
+  const setupImageDrag = (img, container) => {
+    let isDragging = false;
+    let startX, startY, startLeft, startTop;
+
+    const updateImagePosition = () => {
+      const containerRect = container.getBoundingClientRect();
+
+      // Đảm bảo ảnh luôn phủ kín container với scale lớn hơn để tránh viền đen
+      const scaleX = containerRect.width / img.naturalWidth;
+      const scaleY = containerRect.height / img.naturalHeight;
+      const scale = Math.max(scaleX, scaleY) * 1.2; // Tăng scale thêm 20% để đảm bảo hoàn toàn không có viền
+
+      const newWidth = img.naturalWidth * scale;
+      const newHeight = img.naturalHeight * scale;
+
+      img.style.width = Math.ceil(newWidth) + "px";
+      img.style.height = Math.ceil(newHeight) + "px";
+
+      // Center ảnh nếu lần đầu load
+      if (!img.style.left && !img.style.top) {
+        const centerX = Math.floor((containerRect.width - newWidth) / 2);
+        const centerY = Math.floor((containerRect.height - newHeight) / 2);
+        img.style.left = centerX + "px";
+        img.style.top = centerY + "px";
+      }
+    };
+
+    img.onload = updateImagePosition;
+    window.addEventListener("resize", updateImagePosition);
+
+    img.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startLeft = parseInt(img.style.left || 0);
+      startTop = parseInt(img.style.top || 0);
+      img.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+
+      const deltaX = e.clientX - startX;
+      const deltaY = e.clientY - startY;
+
+      let newLeft = startLeft + deltaX;
+      let newTop = startTop + deltaY;
+
+      // Giới hạn để ảnh luôn phủ kín khung - không để trống phần nào
+      const containerRect = container.getBoundingClientRect();
+
+      const maxLeft = 0;
+      const minLeft = containerRect.width - img.offsetWidth;
+      const maxTop = 0;
+      const minTop = containerRect.height - img.offsetHeight;
+
+      // Đảm bảo ảnh không bị kéo quá giới hạn và luôn cover toàn bộ khung
+      newLeft = Math.min(maxLeft, Math.max(minLeft, newLeft));
+      newTop = Math.min(maxTop, Math.max(minTop, newTop));
+
+      img.style.left = newLeft + "px";
+      img.style.top = newTop + "px";
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (isDragging) {
+        isDragging = false;
+        img.style.cursor = "move";
+      }
+    });
+
+    // Touch events cho mobile
+    img.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      isDragging = true;
+      startX = touch.clientX;
+      startY = touch.clientY;
+      startLeft = parseInt(img.style.left || 0);
+      startTop = parseInt(img.style.top || 0);
+    });
+
+    document.addEventListener("touchmove", (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+
+      const touch = e.touches[0];
+      const deltaX = touch.clientX - startX;
+      const deltaY = touch.clientY - startY;
+
+      let newLeft = startLeft + deltaX;
+      let newTop = startTop + deltaY;
+
+      // Giới hạn để ảnh luôn phủ kín khung - không để trống phần nào
+      const containerRect = container.getBoundingClientRect();
+      const maxLeft = 0;
+      const minLeft = containerRect.width - img.offsetWidth;
+      const maxTop = 0;
+      const minTop = containerRect.height - img.offsetHeight;
+
+      // Đảm bảo ảnh không bị kéo quá giới hạn và luôn cover toàn bộ khung
+      newLeft = Math.min(maxLeft, Math.max(minLeft, newLeft));
+      newTop = Math.min(maxTop, Math.max(minTop, newTop));
+
+      img.style.left = newLeft + "px";
+      img.style.top = newTop + "px";
+    });
+
+    document.addEventListener("touchend", () => {
+      isDragging = false;
+    });
+  };
+
+  document
+    .querySelectorAll(".acf-image-uploader .upload-image-btn")
+    .forEach((btn) => {
+      btn.addEventListener("click", () => {
+        currentUploader = btn.closest(".acf-image-uploader");
+        currentButton = btn;
+        if (!currentUploader) return;
+
+        fileInput.click();
+      });
+    });
+
+  // Hàm upload ảnh trực tiếp (không crop) cho banner
+  const uploadDirectImage = (file) => {
+    if (!currentUploader || !currentButton) return;
+
+    // Bắt đầu loading
+    currentButton.classList.add("loading");
+    currentButton.disabled = true;
+    currentButton.innerText = "Đang tải...";
+
+    const postId = currentUploader.dataset.postid;
+    const field = currentUploader.dataset.field;
+    const oldAttachmentId = currentUploader.dataset.attachmentId || "";
+
+    const formData = new FormData();
+    formData.append("action", "upload_acf_image");
+    formData.append("nonce", wdEdit.nonce);
+    formData.append("post_id", postId);
+    formData.append("field", field);
+    formData.append("old_attachment_id", oldAttachmentId);
+    formData.append("file", file);
+
+    fetch(wdEdit.ajax_url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          let className = currentUploader.getAttribute("data-class");
+          const previews = document.querySelectorAll(`.${className}`);
+          previews.forEach((preview) => {
+            if (preview.tagName.toLowerCase() === "img") {
+              preview.src = data.data.url + "?t=" + Date.now();
+            } else {
+              preview.style.backgroundImage = `url('${
+                data.data.url
+              }?t=${Date.now()}')`;
+            }
+          });
+          if (data.data.attachment_id) {
+            currentUploader.dataset.attachmentId = data.data.attachment_id;
+          }
+        } else if (data.message === undefined) {
+          alert(
+            "Upload ảnh thất bại do dung lượng quá cao. Bạn hãy upload lại ảnh nhé!"
+          );
+        } else {
+          alert("Upload ảnh thất bại: " + data.message);
+        }
+      })
+      .catch(() => alert("Lỗi xảy ra khi upload ảnh"))
+      .finally(() => {
+        // Kết thúc loading
+        currentButton.classList.remove("loading");
+        currentButton.disabled = false;
+        currentButton.innerText = "Tải ảnh lên";
+
+        currentButton = null;
+        currentUploader = null;
+      });
+  };
+
+  // Hàm upload ảnh sau khi crop
+  const uploadCroppedImage = (canvas) => {
+    if (!currentUploader || !currentButton) return;
+
+    canvas.toBlob(
+      (blob) => {
+        // Bắt đầu loading
+        currentButton.classList.add("loading");
+        currentButton.disabled = true;
+        currentButton.innerText = "Đang tải...";
+
+        const postId = currentUploader.dataset.postid;
+        const field = currentUploader.dataset.field;
+        const oldAttachmentId = currentUploader.dataset.attachmentId || "";
+
+        const formData = new FormData();
+        formData.append("action", "upload_acf_image");
+        formData.append("nonce", wdEdit.nonce);
+        formData.append("post_id", postId);
+        formData.append("field", field);
+        formData.append("old_attachment_id", oldAttachmentId);
+        formData.append("file", blob, "cropped-image.jpg");
+
+        fetch(wdEdit.ajax_url, {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              let className = currentUploader.getAttribute("data-class");
+              const previews = document.querySelectorAll(`.${className}`);
+              previews.forEach((preview) => {
+                if (preview.tagName.toLowerCase() === "img") {
+                  preview.src = data.data.url + "?t=" + Date.now();
+                } else {
+                  preview.style.backgroundImage = `url('${
+                    data.data.url
+                  }?t=${Date.now()}')`;
+                }
+              });
+              if (data.data.attachment_id) {
+                currentUploader.dataset.attachmentId = data.data.attachment_id;
+              }
+            } else if (data.message === undefined) {
+              alert(
+                "Upload ảnh thất bại do dung lượng quá cao. Bạn hãy upload lại ảnh nhé!"
+              );
+            } else {
+              alert("Upload ảnh thất bại: " + data.message);
+            }
+          })
+          .catch(() => alert("Lỗi xảy ra khi upload ảnh"))
+          .finally(() => {
+            // Kết thúc loading
+            currentButton.classList.remove("loading");
+            currentButton.disabled = false;
+            currentButton.innerText = "Tải ảnh lên";
+
+            currentButton = null;
+            currentUploader = null;
+          });
+      },
+      "image/jpeg",
+      0.8
+    );
+  };
+
+  fileInput.addEventListener("change", () => {
+    if (!currentUploader || !currentButton) return;
+
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    // Kiểm tra nếu là banner thì upload trực tiếp, không crop
+    const field = currentUploader.dataset.field;
+    if (field === "wd_card_img") {
+      uploadDirectImage(file);
+      fileInput.value = "";
+      return;
+    }
+
+    // Hiển thị modal crop cho các ảnh khác
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const { modal, cropArea, cropImage, cropContainer } = cropModal;
+
+      // Thiết lập kích thước crop area dựa trên tỷ lệ khung hiện tại
+      let className = currentUploader.getAttribute("data-class");
+      const preview = document.querySelector(`.${className}`);
+
+      let aspectRatio = 1; // mặc định là vuông
+      if (preview) {
+        const previewStyles = window.getComputedStyle(preview);
+        const width = parseInt(previewStyles.width);
+        const height = parseInt(previewStyles.height);
+        if (width > 0 && height > 0) {
+          aspectRatio = width / height;
+        }
+      }
+
+      // Thiết lập kích thước crop area
+      const maxWidth = Math.min(600, window.innerWidth * 0.8);
+      const cropWidth = maxWidth;
+      const cropHeight = cropWidth / aspectRatio;
+
+      cropArea.style.width = cropWidth + "px";
+      cropArea.style.height = cropHeight + "px";
+
+      cropImage.src = e.target.result;
+      cropImage.style.position = "absolute";
+      cropImage.style.left = "0px";
+      cropImage.style.top = "0px";
+
+      // Đảm bảo ảnh được load và hiển thị đúng ngay từ đầu
+      cropImage.onload = () => {
+        // Force update để ảnh hiển thị đúng size ngay lập tức
+        const containerRect = cropArea.getBoundingClientRect();
+        const scaleX = containerRect.width / cropImage.naturalWidth;
+        const scaleY = containerRect.height / cropImage.naturalHeight;
+        const scale = Math.max(scaleX, scaleY) * 1.2; // Tăng scale để loại bỏ hoàn toàn viền đen
+
+        const newWidth = Math.ceil(cropImage.naturalWidth * scale); // Dùng ceil để tránh lỗi làm tròn
+        const newHeight = Math.ceil(cropImage.naturalHeight * scale);
+
+        cropImage.style.width = newWidth + "px";
+        cropImage.style.height = newHeight + "px";
+
+        // Center ảnh
+        const centerX = Math.floor((containerRect.width - newWidth) / 2);
+        const centerY = Math.floor((containerRect.height - newHeight) / 2);
+        cropImage.style.left = centerX + "px";
+        cropImage.style.top = centerY + "px";
+      };
+
+      modal.classList.add("active");
+
+      // Thiết lập drag cho ảnh
+      setupImageDrag(cropImage, cropArea);
+    };
+    reader.readAsDataURL(file);
+
+    fileInput.value = "";
+  });
+
+  // Xử lý các nút trong modal crop
+  cropModal.confirmBtn.addEventListener("click", () => {
+    const { modal, cropArea, cropImage, cropContainer } = cropModal;
+
+    // Hiển thị loading
+    cropContainer.classList.add("loading");
+
+    // Tạo canvas để crop ảnh
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = cropArea.offsetWidth;
+    canvas.height = cropArea.offsetHeight;
+
+    // Tính toán vị trí và kích thước để vẽ ảnh
+    const imgLeft = parseInt(cropImage.style.left || 0);
+    const imgTop = parseInt(cropImage.style.top || 0);
+
+    // Vẽ ảnh lên canvas với vị trí đã crop
+    ctx.drawImage(
+      cropImage,
+      imgLeft,
+      imgTop,
+      cropImage.offsetWidth,
+      cropImage.offsetHeight
+    );
+
+    modal.classList.remove("active");
+    cropContainer.classList.remove("loading");
+    uploadCroppedImage(canvas);
+  });
+
+  cropModal.cancelBtn.addEventListener("click", () => {
+    cropModal.modal.classList.remove("active");
+    currentButton = null;
+    currentUploader = null;
+  });
+
+  // Đóng modal khi click bên ngoài
+  cropModal.modal.addEventListener("click", (e) => {
+    if (e.target === cropModal.modal) {
+      cropModal.modal.classList.remove("active");
+      currentButton = null;
+      currentUploader = null;
+    }
+  });
+
+  // Đóng modal khi nhấn ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && cropModal.modal.classList.contains("active")) {
+      cropModal.modal.classList.remove("active");
+      currentButton = null;
+      currentUploader = null;
+    }
+  });
+
+  // ============================ INLINE EDIT ============================
+
+  const editBtn = document.getElementById("edit-mode-btn");
+  const previewBtn = document.getElementById("preview-mode-btn");
+  const editableEls = document.querySelectorAll(".editable-text");
+
+  let isEditing = false;
+
+  function convertDateToISO(dateStr) {
+    const parts = dateStr.split(".");
+    if (parts.length === 3) {
+      return `${parts[2]}-${parts[1].padStart(2, "0")}-${parts[0].padStart(
+        2,
+        "0"
+      )}`;
+    }
+    return dateStr;
+  }
+
+  function formatDateFromISO(dateStr) {
+    const parts = dateStr.split("-");
+    if (parts.length === 3) {
+      return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    }
+    return dateStr;
+  }
+  function updateGoogleMap(address) {
+    const mapFrame = document.getElementById("google-map-frame");
+    if (mapFrame && address) {
+      const newSrc =
+        "https://www.google.com/maps?q=" +
+        encodeURIComponent(address) +
+        "&output=embed";
+      mapFrame.src = newSrc;
+    }
+  }
+
+  function saveInlineEdit(el) {
+    let newValue = el.innerText.trim();
+    const field = el.dataset.field;
+    const postId = el.dataset.postid;
+
+    if (field === "wd_date_data") {
+      newValue = convertDateToISO(newValue);
+    }
+    if (field === "wd_address_data") {
+      updateGoogleMap(newValue);
+    }
+
+    fetch(wdEdit.ajax_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        action: "update_acf_field",
+        field,
+        value: newValue,
+        post_id: postId,
+        nonce: wdEdit.nonce,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          const updatedValue =
+            field === "wd_date_data" ? formatDateFromISO(newValue) : newValue;
+
+          document
+            .querySelectorAll(
+              `.editable-text[data-postid="${postId}"][data-field="${field}"]`
+            )
+            .forEach((targetEl) => {
+              targetEl.innerText = updatedValue;
+            });
+
+          console.log("Cập nhật field thường thành công:", field);
+        } else {
+          console.error(
+            "Cập nhật field thường thất bại:",
+            data.message || data
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi gửi dữ liệu field thường:", error);
+      });
+  }
+
+  function saveRepeaterEdit(el) {
+    const value = el.innerText.trim();
+    const field = el.dataset.field;
+    const subfield = el.dataset.subfield;
+    const rowIndex = el.dataset.rowIndex;
+    const postId = el.dataset.postid;
+
+    const requestData = {
+      action: "update_acf_story_items",
+      field,
+      subfield,
+      row_index: rowIndex,
+      value,
+      post_id: postId,
+      nonce: wdEdit.nonce,
+    };
+
+    fetch(wdEdit.ajax_url, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(requestData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.success) {
+          console.error("Lỗi repeater:", data.data.message || data);
+        } else {
+          console.log("Cập nhật repeater thành công:", data.data.repeater);
+        }
+      })
+      .catch((err) => {
+        console.error("Lỗi AJAX repeater:", err);
+      });
+  }
+
+  function enableEditing() {
+    editableEls.forEach((el) => {
+      el.setAttribute("contenteditable", "true");
+      el.classList.add("editing-active");
+    });
+    isEditing = true;
+
+    if (editBtn) {
+      editBtn.querySelector(".wd-edit-item-p")?.classList.add("active");
+      editBtn.querySelector(".wd-edit-cont-item-icon")?.classList.add("active");
+    }
+
+    if (previewBtn) {
+      previewBtn.querySelector(".wd-edit-item-p")?.classList.remove("active");
+      previewBtn
+        .querySelector(".wd-edit-cont-item-icon")
+        ?.classList.remove("active");
+    }
+
+    document
+      .querySelectorAll(".upload-image-btn")
+      .forEach((btn) => btn.classList.add("active"));
+    document
+      .querySelectorAll(".wd-couple-img-overlay")
+      .forEach((btn) => btn.classList.add("select"));
+    document
+      .querySelectorAll(".remove-row-btn")
+      .forEach((btn) => btn.classList.add("active"));
+    document
+      .querySelectorAll(".wd-story-item-add")
+      .forEach((btn) => btn.classList.add("active"));
+  }
+
+  function disableEditing() {
+    editableEls.forEach((el) => {
+      el.removeAttribute("contenteditable");
+      el.classList.remove("editing-active");
+      el.blur();
+    });
+    isEditing = false;
+
+    if (previewBtn) {
+      previewBtn.querySelector(".wd-edit-item-p")?.classList.add("active");
+      previewBtn
+        .querySelector(".wd-edit-cont-item-icon")
+        ?.classList.add("active");
+    }
+
+    if (editBtn) {
+      editBtn.querySelector(".wd-edit-item-p")?.classList.remove("active");
+      editBtn
+        .querySelector(".wd-edit-cont-item-icon")
+        ?.classList.remove("active");
+    }
+
+    document
+      .querySelectorAll(".upload-image-btn")
+      .forEach((btn) => btn.classList.remove("active"));
+    document
+      .querySelectorAll(".wd-couple-img-overlay")
+      .forEach((btn) => btn.classList.remove("select"));
+    document
+      .querySelectorAll(".remove-row-btn")
+      .forEach((btn) => btn.classList.remove("active"));
+    document
+      .querySelectorAll(".wd-story-item-add")
+      .forEach((btn) => btn.classList.remove("active"));
+  }
+
+  if (editBtn) editBtn.addEventListener("click", enableEditing);
+  if (previewBtn) previewBtn.addEventListener("click", disableEditing);
+
+  editableEls.forEach((el) => {
+    el.addEventListener("click", (e) => {
+      if (!isEditing) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+
+    el.addEventListener("blur", () => {
+      if (!isEditing) return;
+
+      if (
+        el.dataset.subfield !== undefined &&
+        el.dataset.rowIndex !== undefined
+      ) {
+        saveRepeaterEdit(el);
+      } else {
+        saveInlineEdit(el);
+      }
+    });
+
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        el.blur();
+      }
+    });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const storyLists = document.querySelectorAll(".wd-story-items");
+
+  storyLists.forEach((list) => {
+    const addBtn = list.querySelector(".add-row-icon"); // dùng class thay vì id
+
+    // Thêm dòng
+    addBtn?.addEventListener("click", () => {
+      const postId = list.dataset.postid;
+      const field = list.dataset.field;
+
+      fetch(wdEdit.ajax_url, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          action: "add_acf_story_item",
+          nonce: wdEdit.nonce,
+          post_id: postId,
+          field: field,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            location.reload(); // hoặc cập nhật DOM tại đây nếu bạn muốn mượt hơn
+          } else {
+            alert(
+              "Không thể thêm dòng: " + (data.message || "Lỗi không xác định")
+            );
+          }
+        });
+    });
+
+    // Xoá dòng
+    list.addEventListener("click", (e) => {
+      if (
+        e.target.classList.contains("remove-row-btn") ||
+        e.target.closest(".remove-row-btn")
+      ) {
+        const btn = e.target.closest(".remove-row-btn");
+        const li = btn.closest("li");
+        const index = li.dataset.index;
+        const postId = list.dataset.postid;
+        const field = list.dataset.field;
+
+        fetch(wdEdit.ajax_url, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "remove_acf_story_item",
+            nonce: wdEdit.nonce,
+            post_id: postId,
+            field: field,
+            index: index,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              location.reload();
+            } else {
+              alert(
+                "Không thể xoá dòng: " + (data.message || "Lỗi không xác định")
+              );
+            }
+          });
+      }
+    });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const selectWrapper = document.querySelector(
+    ".wd-attend-form-select-wrapper"
+  );
+  const selected = selectWrapper.querySelector(".wd-attend-form-selected");
+  const dropdown = selectWrapper.querySelector(".wd-attend-form-select");
+  const items = dropdown.querySelectorAll(".wd-attend-form-select-item");
+  const hiddenInput = document.getElementById("guest-role");
+
+  // Toggle dropdown visibility
+  selected.addEventListener("click", function () {
+    dropdown.style.display =
+      dropdown.style.display === "block" ? "none" : "block";
+  });
+
+  // Select an item and update hidden input
+  items.forEach((item) => {
+    item.addEventListener("click", function () {
+      const value = this.textContent;
+      selected.textContent = value;
+      hiddenInput.value = value;
+      dropdown.style.display = "none";
+    });
+  });
+
+  // Click outside to close dropdown
+  document.addEventListener("click", function (e) {
+    if (!selectWrapper.contains(e.target)) {
+      dropdown.style.display = "none";
+    }
+  });
+});
+document.querySelectorAll(".wd-attend-form-btn").forEach((btn) => {
+  btn.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const form = document.querySelector(".wd-attend-form");
+    const status = this.classList.contains("wd-attend-form-btn-attend")
+      ? "wd-attend-form-btn-attend"
+      : "wd-attend-form-btn-miss";
+
+    const data = {
+      action: "submit_wedding_rsvp",
+      nonce: wdEdit.nonce,
+      post_id: form.dataset.postid || "",
+      attend_full_name: document.getElementById("attendFullname").value,
+      guest_role: document.getElementById("guest-role").value,
+      attend_phone: document.getElementById("attendPhone").value,
+      attend_wish: document.getElementById("attendWish").value,
+      attend_status: status === "wd-attend-form-btn-attend" ? "Có" : "Không",
+    };
+
+    console.log(data);
+    fetch(wdEdit.ajax_url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString(),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.success) {
+          const originalText = btn.innerHTML;
+          btn.innerHTML = "✅ Đã ghi nhận";
+          btn.disabled = true;
+
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+          }, 2000); // sau 2 giây (2000ms) khôi phục
+        } else {
+          alert(result.data || "Có lỗi xảy ra!");
+        }
+      });
+  });
+});
+// document.addEventListener("DOMContentLoaded", function () {
+//   const loginBtn = document.getElementById("wd-menu-login");
+//   const loginForm = document.querySelector(".wd-user-form.wd-loggin-form");
+//   const formContainer = loginForm?.querySelector(".wd-user-form-cont");
+//   const closeIcon = loginForm?.querySelector(".wd-user-cancel");
+
+//   const userToggle = document.querySelector(".wd-user-toggle");
+//   const dropdownMenu = document.querySelector(".wd-user-dropdown-menu");
+
+//   // ✅ A. Xử lý login form nếu đủ phần tử
+//   if (loginBtn && loginForm && formContainer && closeIcon) {
+//     loginBtn.addEventListener("click", function (e) {
+//       if (window.wdUserLoggedIn) return;
+//       e.preventDefault();
+//       loginForm.classList.add("active");
+//       const firstInput = loginForm.querySelector(".wd-user-form-input");
+//       if (firstInput) firstInput.focus();
+//     });
+
+//     closeIcon.addEventListener("click", function (e) {
+//       e.stopPropagation();
+//       loginForm.classList.remove("active");
+//     });
+
+//     formContainer.addEventListener("click", function (e) {
+//       e.stopPropagation();
+//     });
+
+//     loginForm.addEventListener("click", function () {
+//       loginForm.classList.remove("active");
+//     });
+
+//     document.addEventListener("keydown", function (e) {
+//       if (e.key === "Escape" && loginForm.classList.contains("active")) {
+//         loginForm.classList.remove("active");
+//       }
+//     });
+//   }
+
+//   // ✅ B. Xử lý dropdown user đã đăng nhập (nên luôn chạy riêng biệt)
+//   if (userToggle && dropdownMenu) {
+
+//     userToggle.addEventListener("click", function (e) {
+//       e.stopPropagation();
+//       dropdownMenu.classList.toggle("active");
+//     });
+
+//     document.addEventListener("click", function (e) {
+//       if (!dropdownMenu.contains(e.target) && !userToggle.contains(e.target)) {
+//         dropdownMenu.classList.remove("active");
+//       }
+//     });
+//   }
+// });
+// document.addEventListener("DOMContentLoaded", function () {
+//     const menuToggle = document.querySelector(".wd-header-nav-item-mobile");
+//     const menuClose = document.querySelector(".wd-header-nav-item-mobile-close");
+//     const navMenu = document.querySelector(".wd-header-nav");
+//     const navMenuClose = document.querySelectorAll(".close-menu-mobile");
+
+//     // Mở menu
+//     menuToggle.addEventListener("click", function (e) {
+//         e.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+//         navMenu.classList.add("active");
+//     });
+
+//     // Đóng menu khi bấm vào icon đóng
+//     menuClose.addEventListener("click", function (e) {
+//         e.stopPropagation();
+//         navMenu.classList.remove("active");
+//     });
+
+//     // Đóng menu khi click vào các phần tử có class "close-menu-mobile"
+//     navMenuClose.forEach(function (el) {
+//         el.addEventListener("click", function () {
+//             navMenu.classList.remove("active");
+//         });
+//     });
+
+//     // Đóng menu khi click ra ngoài (thêm setTimeout để tránh xung đột)
+//     document.addEventListener("click", function (e) {
+//         setTimeout(() => {
+//             if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+//                 navMenu.classList.remove("active");
+//             }
+//         }, 10);
+//     });
+// });
+document.addEventListener("DOMContentLoaded", function () {
+  const copyBtn = document.getElementById("copy-link-btn");
+
+  copyBtn.addEventListener("click", () => {
+    const currentUrl = window.location.href;
+
+    navigator.clipboard
+      .writeText(currentUrl)
+      .then(() => {
+        const originalText = copyBtn.textContent;
+        copyBtn.classList.add("active");
+        copyBtn.textContent = "Đã sao chép";
+
+        // Sau 2 giây, trả lại text ban đầu
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+          copyBtn.classList.remove("active");
+        }, 2000);
+      })
+      .catch((err) => {
+        copyBtn.textContent = "Lỗi, không thể sao chép";
+        setTimeout(() => {
+          copyBtn.textContent = "Chia sẻ";
+        }, 2000);
+      });
+  });
+});
