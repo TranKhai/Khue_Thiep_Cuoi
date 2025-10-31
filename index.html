@@ -291,8 +291,8 @@
                         <p class="wd-card-item-title editable-text" data-field="wd_invitation_card_brides_title"> NHÀ TRAI
                         </p>
                         <div class="wd-card-names">
-                            <p class="wd-card-item-name editable-text" data-field="wd_invitation_card_brides_dad">ANH: NGUYỄN THANH</p>
-                            <p class="wd-card-item-name editable-text" data-field="wd_invitation_card_brides_mom">CHỊ: LÊ THỊ NGUYÊN</p>
+                            <p class="wd-card-item-name editable-text" data-field="wd_invitation_card_brides_dad">ÔNG: NGUYỄN THANH</p>
+                            <p class="wd-card-item-name editable-text" data-field="wd_invitation_card_brides_mom">BÀ: LÊ THỊ NGUYÊN</p>
                         </div>
                     </li>
                 </ul>
@@ -350,14 +350,14 @@
                                 <li class="wd-attend-form-select-item">Bạn Cô dâu</li>
                                 <li class="wd-attend-form-select-item">Bạn Chú rể</li>
                             </ul>
-                            <input type="hidden" name="guest_role" id="guest-role" value="Bạn Cô dâu Chú rể">
+                            <input type="hidden" name="guest_role" id="guest_role" value="Bạn Cô dâu Chú rể">
                         </div>
                     </div>
 
-                    <input type="tel" name="attend_phone" id="attendPhone" class="wd-attend-form-input wd-attend-form-input-phone" placeholder="Số điện thoại*">
+                    <input type="tel" name="attend_phone" id="attend_phone" class="wd-attend-form-input wd-attend-form-input-phone" placeholder="Số điện thoại*">
 
-                    <textarea name="attend_wish" id="attendWish" class="wd-attend-form-area" placeholder="Lời chúc*"></textarea>
-                    <input type="hidden" name="attend_status" id="attendStatus" value="">
+                    <textarea name="attend_wish" id="attend_wish" class="wd-attend-form-area" placeholder="Lời chúc*"></textarea>
+                    <input type="hidden" name="attend_status" id="attend_status" value="">
                     <div class="wd-attend-form-btns">
                         <button id="Message" type="submit" class="wd-attend-form-btn attend wd-attend-form-btn-attend" style="background-color: #B48C72">
                             Tôi sẽ tham dự </button>
@@ -470,8 +470,8 @@
         const attendStatus = document.getElementById('attendStatus');
 
         // Lấy nút "tham dự" và "không tham dự"
-        const attendBtn = document.querySelector('.wd-attend-form-btn attend wd-attend-form-btn-attend');
-        const missBtn = document.querySelector('.wd-attend-form-btn miss wd-attend-form-btn-miss');
+        const attendBtn = document.querySelector('.wd-attend-form-btn-attend');
+        const missBtn = document.querySelector('.wd-attend-form-btn-miss');
 
         // Khi bấm "Tôi sẽ tham dự"
         attendBtn.addEventListener('click', (e) => {
