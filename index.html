@@ -361,7 +361,7 @@
                     <div class="wd-attend-form-btns">
                         <button id="attendStatus" type="submit" class="wd-attend-form-btn attend wd-attend-form-btn-attend" style="background-color: #B48C72">
                             Tôi sẽ tham dự </button>
-                        <button type="submit" class=" wd-attend-form-btn miss wd-attend-form-btn-miss ">
+                        <button id="attendStatus" type="submit" class=" wd-attend-form-btn miss wd-attend-form-btn-miss ">
                             Tôi không thể tham dự </button>
                     </div>
                 </form>
@@ -467,7 +467,7 @@
         const scriptURL = 'https://script.google.com/macros/s/AKfycbx1AwSIaCKWwcWIYmNt2PtBUZlyYAyr5vv6EXApGXsSCJCE4rHT-Qn7iPDzwXK7UaVp/exec'; // thay bằng link thật của bạn
 
         const form = document.querySelector('.wd-attend-form');
-        const attendStatus = document.getElementById('attendStatus');
+        const attendStatus = document.getElementById('attend_status');
 
         // Lấy nút "tham dự " và "không tham dự "
         const attendBtn = document.querySelector('.wd-attend-form-btn-attend');
