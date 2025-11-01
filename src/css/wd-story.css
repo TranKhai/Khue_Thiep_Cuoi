@@ -3,6 +3,10 @@
   align-items: center;
   justify-content: center;
 }
+.wd-story-test {
+  display: flex;
+  justify-content: center;
+}
 .wd-story-cont {
   max-width: 1440px;
   width: 100%;
