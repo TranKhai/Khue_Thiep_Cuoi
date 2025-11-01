@@ -11,7 +11,7 @@
 }
 .wd-story-left {
   width: 60%;
-  padding-right: 60px;
+  padding-right: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -197,6 +197,7 @@ button.remove-row-btn p {
   .wd-story-mobile {
     display: block;
     padding-bottom: 50px;
+    overflow: hidden;
   }
   .wd-story-right-bottom-block {
     position: relative;
@@ -260,15 +261,16 @@ button.remove-row-btn p {
     position: relative;
   }
   img.wd-sub-img {
-    width: auto;
-    height: 230px;
-    min-height: auto;
+    width: 100%;
+    height: auto;
+    max-height: none;
   }
   .wd-sub-img-box {
-    position: absolute;
-    top: -290px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin-top: 16px;
   }
   .wd-story-img {
     min-height: 400px;

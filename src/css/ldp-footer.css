@@ -134,7 +134,7 @@
 .lfp-footer-bottom {
   padding-top: 30px;
   display: flex;
-  justify-content: flex-end;
+  justify-content:center;
   max-width: 1440px;
 }
 .lfp-footer-bottom-cont {
@@ -204,5 +204,15 @@
   }
   .lfp-footer-bottom-cont {
     margin-top: 12px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .ldp-footer p {
+    text-align: center;
+  }
+  .lfp-footer-bottom {
+    justify-content: center;
+    padding-top: 0;
   }
 }
